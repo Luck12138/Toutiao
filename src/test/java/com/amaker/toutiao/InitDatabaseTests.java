@@ -1,7 +1,9 @@
 package com.amaker.toutiao;
 
+import com.amaker.toutiao.dao.LoginTicketDao;
 import com.amaker.toutiao.dao.NewsDao;
 import com.amaker.toutiao.dao.UserDao;
+import com.amaker.toutiao.model.LoginTicket;
 import com.amaker.toutiao.model.News;
 import com.amaker.toutiao.model.User;
 import org.junit.Assert;
@@ -27,6 +29,10 @@ public class InitDatabaseTests {
 
     @Autowired
     NewsDao newsDao;
+
+    @Autowired
+    LoginTicketDao loginTicketDao;
+
 
     @Test
     public void contextLoads() {
@@ -58,14 +64,21 @@ public class InitDatabaseTests {
             news.setLink(String.format("http://wwww.nowcoder.com/%d.html",i));
             newsDao.addNews(news);
 
+            LoginTicket ticket=new LoginTicket();
+            ticket.setStatus(0);
+            ticket.setUserId(i+1);
+            ticket.setTicket(String.format("ticket%d",i));
+            ticket.setExpired(date);
+            loginTicketDao.addLoginTicket(ticket);
 
-
+            loginTicketDao.updateStatus(ticket.getTicket(),2);
 
 
         }
 
         Assert.assertEquals("newpassword",userDao.selectById(1).getPassword());
-        Assert.assertNull(userDao.selectById(1));
+        Assert.assertEquals(1,loginTicketDao.selectByTicket("ticket0").getUserId());
+        Assert.assertEquals(2,loginTicketDao.selectByTicket("ticket1").getStatus());
     }
 
 }

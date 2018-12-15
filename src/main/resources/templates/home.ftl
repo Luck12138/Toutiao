@@ -11,11 +11,6 @@
 
     <link rel="stylesheet" media="all" href="/styles/style.css">
 
-    <script src="/scripts/hm.js"></script>
-    <script src="/scripts/detail.js"></script>
-
-    <script type="text/javascript" src="/scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/scripts/jquery.qrcode.min.js"></script>
 </head>
 <body class="welcome_index">
 
@@ -40,9 +35,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class=""><a href="http://nowcoder.com/explore">发现</a></li>
 
-                <li class="js-login"><a href="javascript:void(0);">站内信</a></li>
-
+                <#if user??>
+                <li class="js-login"><a href="javascript:void(0);">${user.name!}</a></li>
+                <#else>
                 <li class="js-login"><a href="javascript:void(0);">登陆</a></li>
+                </#if>
             </ul>
 
         </nav>
@@ -91,7 +88,7 @@
                             </div>
                             <div class="media">
                                 <div class="media-left">
-                                    <img class="media-object app-qrcode" src="../images/res/qrcode.png" alt="App qrcode web index">
+                                    <img class="media-object app-qrcode" src="/images/res/qrcode.png" alt="App qrcode web index">
                                 </div>
                                 <div class="media-body">
                                     <div class="buttons">
@@ -114,18 +111,18 @@
                 <#assign current_date=" "/>
                 <#list vos as vo>
                 <div class="daily">
-                   <#if (current_date!=vo.news.createdDate?string("yyyy-MM-dd"))>
-                    <#if (vo_index> 0)>
+                    <#if (current_date!=vo.news.createdDate?string("yyyy-MM-dd"))>
+                        <#if (vo_index> 0)>
                     </div>
-                    </#if>
+                        </#if>
 
-                    <#assign current_date=vo.news.createdDate?string("yyyy-MM-dd")>
+                        <#assign current_date=vo.news.createdDate?string("yyyy-MM-dd")>
 
                 <h3 class="date">
                     <i class="fa icon-calendar"></i>
                     <span>头条资讯 &nbsp;${vo.news.createdDate?string("yyyy-MM-dd")}</span>
                 </h3>
-                   </#if>
+                    </#if>
 
 
                 <div class="posts">
@@ -187,51 +184,51 @@
                     </#if>
                 </#list>
 
-                </div>
-
-            </div>
         </div>
 
     </div>
+</div>
 
-    <footer>
-        <div class="container">
-            <p class="text-center">
-                <a href="http://nowcoder.com/about">关于我们</a>
-                <a href="http://nowcoder.com/download">头条客户端</a>
-            </p>
-            <p class="text-center">© 2013-2016 头条八卦</p>
-        </div>
+</div>
 
-    </footer>
+<footer>
+    <div class="container">
+        <p class="text-center">
+            <a href="http://nowcoder.com/about">关于我们</a>
+            <a href="http://nowcoder.com/download">头条客户端</a>
+        </p>
+        <p class="text-center">© 2013-2016 头条八卦</p>
+    </div>
 
-    <div id="quick-download">
-        <button type="button" class="close-link btn-link" data-toggle="modal" data-target="#quick-download-app-modal"><i class="fa icon-times-circle"></i></button>
+</footer>
 
-        <a class="download-link" href="http://nowcoder.com/download">
-            <h3>牛客网</h3>
-            <h4>程序员的首选学习分享平台</h4>
-            <button type="button" class="btn btn-info btn-sm">下载 APP</button>
-        </a>
+<div id="quick-download">
+    <button type="button" class="close-link btn-link" data-toggle="modal" data-target="#quick-download-app-modal"><i class="fa icon-times-circle"></i></button>
 
-        <div class="modal fade" id="quick-download-app-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">提示</div>
-                    <div class="modal-body">
-                        <div class="checkbox">
-                            <label class="i-checks">
-                                <input id="already-installed" type="checkbox"><i></i> 我已安装了牛客网App，不再显示
-                            </label>
-                        </div>
+    <a class="download-link" href="http://nowcoder.com/download">
+        <h3>牛客网</h3>
+        <h4>程序员的首选学习分享平台</h4>
+        <button type="button" class="btn btn-info btn-sm">下载 APP</button>
+    </a>
+
+    <div class="modal fade" id="quick-download-app-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">提示</div>
+                <div class="modal-body">
+                    <div class="checkbox">
+                        <label class="i-checks">
+                            <input id="already-installed" type="checkbox"><i></i> 我已安装了牛客网App，不再显示
+                        </label>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-block btn-default" id="close-quick-download-app-modal">关 闭</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-block btn-default" id="close-quick-download-app-modal">关 闭</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script type="text/javascript" src="/scripts/jquery.js"></script>
 <script type="text/javascript" src="/scripts/main/base/base.js"></script>
@@ -241,7 +238,6 @@
 <script type="text/javascript" src="/scripts/main/component/popup.js"></script>
 <script type="text/javascript" src="/scripts/main/component/popupLogin.js"></script>
 <script type="text/javascript" src="/scripts/main/site/home.js"></script>
-
 
 
 </body></html>
