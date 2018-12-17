@@ -104,6 +104,11 @@ public class UserService {
         return map;
     }
 
+
+    public void logout(String ticket){
+        loginTicketDao.updateStatus(ticket,1);
+    }
+
     public User selectUserById(int id){
         return userDao.selectById(id);
     }
