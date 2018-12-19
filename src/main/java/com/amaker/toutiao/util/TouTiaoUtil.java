@@ -14,8 +14,21 @@ import java.util.Map;
  * @Description:
  */
 public class TouTiaoUtil {
-    private static final Logger logger = LoggerFactory.getLogger(TouTiaoUtil.class);
+    public static final Logger logger = LoggerFactory.getLogger(TouTiaoUtil.class);
+    public static String TOUTIAO_DOMAIN="http://127.0.0.1:8080/";
+    public static String QINIU_DOMAIN_PREFIX="http://pjx49w9rb.bkt.clouddn.com/";
+    public static String IMG_DIR="G:/upload/";
 
+    public static String[] IMAGE_FILE_EXT=new String[]{"png","jpg","jpeg","bmp"};
+
+    public static Boolean isFileAllowed(String extFile){
+        for(String ext:IMAGE_FILE_EXT){
+            if(ext.equals(extFile)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static String getJsonString(int code){
 

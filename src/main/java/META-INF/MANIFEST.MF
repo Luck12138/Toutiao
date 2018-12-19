@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Class-Path: tomcat-embed-el-9.0.13.jar fastjson-1.2.54.jar mybatis-spr
+ ing-1.3.2.jar spring-webmvc-5.1.3.RELEASE.jar spring-core-5.1.3.RELEA
+ SE.jar spring-boot-starter-logging-2.1.1.RELEASE.jar mybatis-spring-b
+ oot-autoconfigure-1.3.2.jar spring-web-5.1.3.RELEASE.jar spring-conte
+ xt-5.1.3.RELEASE.jar logback-core-1.2.3.jar classmate-1.4.0.jar sprin
+ g-tx-5.1.3.RELEASE.jar jackson-annotations-2.9.0.jar freemarker-2.3.2
+ 8.jar aspectjweaver-1.9.2.jar spring-boot-starter-jdbc-2.1.1.RELEASE.
+ jar commons-lang3-3.8.1.jar tomcat-embed-core-9.0.13.jar spring-boot-
+ starter-tomcat-2.1.1.RELEASE.jar spring-boot-starter-2.1.1.RELEASE.ja
+ r spring-boot-starter-web-2.1.1.RELEASE.jar javax.annotation-api-1.3.
+ 2.jar jackson-datatype-jdk8-2.9.7.jar jackson-module-parameter-names-
+ 2.9.7.jar spring-beans-5.1.3.RELEASE.jar jackson-core-2.9.7.jar logba
+ ck-classic-1.2.3.jar spring-boot-starter-aop-2.1.1.RELEASE.jar hibern
+ ate-validator-6.0.13.Final.jar spring-boot-2.1.1.RELEASE.jar jul-to-s
+ lf4j-1.7.25.jar jboss-logging-3.3.2.Final.jar log4j-to-slf4j-2.11.1.j
+ ar HikariCP-3.2.0.jar spring-boot-autoconfigure-2.1.1.RELEASE.jar spr
+ ing-aop-5.1.3.RELEASE.jar spring-jcl-5.1.3.RELEASE.jar jackson-databi
+ nd-2.9.7.jar tomcat-embed-websocket-9.0.13.jar spring-context-support
+ -5.1.3.RELEASE.jar spring-expression-5.1.3.RELEASE.jar mybatis-spring
+ -boot-starter-1.3.2.jar log4j-api-2.11.1.jar snakeyaml-1.23.jar slf4j
+ -api-1.7.25.jar spring-boot-devtools-2.1.1.RELEASE.jar jackson-dataty
+ pe-jsr310-2.9.7.jar spring-boot-starter-json-2.1.1.RELEASE.jar mysql-
+ connector-java-8.0.13.jar validation-api-2.0.1.Final.jar mybatis-3.4.
+ 6.jar spring-jdbc-5.1.3.RELEASE.jar spring-boot-starter-freemarker-2.
+ 1.1.RELEASE.jar
+Main-Class: com.amaker.toutiao.ToutiaoApplication
+

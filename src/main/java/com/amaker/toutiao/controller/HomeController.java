@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,16 +45,20 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String index(Model model){
+    public String index(Model model,
+                         @RequestParam(value = "pop", defaultValue = "0") int pop){
 
         model.addAttribute("vos",getNews(0,0,10));
+        model.addAttribute("pop",pop);
         return "home";
     }
 
     @RequestMapping("/user/{userId}")
     public String userId(@PathVariable(value = "userId") int userId,
-                         Model model){
+                         Model model,
+                         @RequestParam(value = "pop", defaultValue = "0" )int pop){
         model.addAttribute("vos",getNews(userId,0,10));
+        model.addAttribute("pop",pop);
 
         return "home";
     }

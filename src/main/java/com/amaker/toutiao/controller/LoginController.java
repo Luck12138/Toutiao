@@ -58,7 +58,9 @@ public class LoginController {
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         @RequestParam(value = "rember",defaultValue = "0") int rember,
-                        HttpServletResponse response){
+                        HttpServletResponse response,
+                        Model model){
+
 
 
         try {
@@ -82,6 +84,7 @@ public class LoginController {
             logger.error("登录异常"+e.getMessage());
             return TouTiaoUtil.getJsonString(1,"登录异常");
         }
+
 
     }
 

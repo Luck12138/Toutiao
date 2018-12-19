@@ -1,6 +1,7 @@
 package com.amaker.toutiao.configuration;
 
 
+import com.amaker.toutiao.interceptor.LoginRequiredInterceptor;
 import com.amaker.toutiao.interceptor.PassportInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,10 +20,14 @@ public class ToutiaoWebConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     PassportInterceptor passportInterceptor;
 
+    @Autowired
+    LoginRequiredInterceptor loginRequiredInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(passportInterceptor);
+        registry.addInterceptor(loginRequiredInterceptor).addPathPatterns("/setting*");
         super.addInterceptors(registry);
     }
 }
