@@ -179,7 +179,7 @@
                                 -->
                             </div>
 
-                            <div class="subject-name">来自 <a href="/user/${vo.user.id}">${vo.user.id}</a></div>
+                            <div class="subject-name">来自 <a href="/user/${vo.user.id}">${vo.user.name}</a></div>
                         </div>
 
 

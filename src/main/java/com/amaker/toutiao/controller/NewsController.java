@@ -1,5 +1,7 @@
 package com.amaker.toutiao.controller;
 
+import com.amaker.toutiao.model.HostHolder;
+import com.amaker.toutiao.model.News;
 import com.amaker.toutiao.service.NewsService;
 import com.amaker.toutiao.service.QiniuService;
 import com.amaker.toutiao.util.TouTiaoUtil;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Date;
 
 /**
  * @program: toutiao
@@ -32,6 +35,9 @@ public class NewsController {
 
     @Autowired
     private QiniuService qiniuService;
+
+    @Autowired
+    HostHolder hostHolder;
 
     public static Logger logger=LoggerFactory.getLogger(NewsController.class);
 
@@ -68,4 +74,28 @@ public class NewsController {
     }
 
 
+    @RequestMapping(value = "/user/addNews",method = {RequestMethod.POST})
+    @ResponseBody
+    public String addNews(@RequestParam("image") String image,
+                          @RequestParam("title") String title,
+                          @RequestParam("link") String link){
+        try {
+            News news=new News();
+            if(hostHolder.getUser()==null){
+                news.setUserId(3);
+            }else {
+                news.setUserId(hostHolder.getUser().getId());
+            }
+            news.setLink(link);
+            news.setImage(image);
+            news.setCreatedDate(new Date());
+            news.setTitle(title);
+            newsService.addNews(news);
+            return TouTiaoUtil.getJsonString(0,"资讯添加成功！");
+
+        }catch (Exception e){
+            logger.error("资讯添加失败！"+e.getMessage());
+            return TouTiaoUtil.getJsonString(1,"资讯添加失败！");
+        }
+    }
 }

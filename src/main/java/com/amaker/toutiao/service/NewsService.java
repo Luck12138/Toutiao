@@ -48,6 +48,11 @@ public class NewsService {
 
             return  TouTiaoUtil.TOUTIAO_DOMAIN+"image?name="+fileName;
         }
+
+        public int addNews(News news){
+            newsDao.addNews(news);
+            return news.getId();
+        }
 }
 
 
