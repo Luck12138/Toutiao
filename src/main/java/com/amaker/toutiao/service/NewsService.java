@@ -30,6 +30,10 @@ public class NewsService {
         public List<News> getLatestNews(int userId, int offset, int limit) {
         return newsDao.selectNewsByUserIdAndOffset(userId,offset,limit);
         }
+
+        public News selectNewsById(int id){
+            return newsDao.selectNewsById(id);
+        }
         public String saveImage(MultipartFile file)throws IOException {
 
             int doPos = file.getOriginalFilename().lastIndexOf(".");
@@ -52,6 +56,10 @@ public class NewsService {
         public int addNews(News news){
             newsDao.addNews(news);
             return news.getId();
+        }
+
+        public void updateCount(int countComment,int id){
+            newsDao.updateCount(countComment,id);
         }
 }
 

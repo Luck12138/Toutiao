@@ -48,10 +48,11 @@
 
                 <li class="js-share"><a href="javascript:void(0);">分享</a></li>
                 <li class=""><a href="/msg/list">站内信</a></li>
-                <li class=""><a href="/user/$!{user.id}/">$!{user.name}</a></li>
-
+                   <#if user??>
+                <li class="js-login"><a href="javascript:void(0);">${user.name}</a></li>
+                   <#else>
                 <li class="js-login"><a href="javascript:void(0);">登陆</a></li>
-
+                   </#if>
             </ul>
 
         </nav>

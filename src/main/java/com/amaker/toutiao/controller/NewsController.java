@@ -1,25 +1,26 @@
 package com.amaker.toutiao.controller;
 
-import com.amaker.toutiao.model.HostHolder;
-import com.amaker.toutiao.model.News;
+import com.amaker.toutiao.model.*;
+import com.amaker.toutiao.service.CommentService;
 import com.amaker.toutiao.service.NewsService;
 import com.amaker.toutiao.service.QiniuService;
+import com.amaker.toutiao.service.UserService;
 import com.amaker.toutiao.util.TouTiaoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: toutiao
@@ -34,7 +35,13 @@ public class NewsController {
     private NewsService newsService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private QiniuService qiniuService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     HostHolder hostHolder;
@@ -97,5 +104,51 @@ public class NewsController {
             logger.error("资讯添加失败！"+e.getMessage());
             return TouTiaoUtil.getJsonString(1,"资讯添加失败！");
         }
+    }
+
+
+    @RequestMapping(value = "/news/{newsId}",method = {RequestMethod.GET})
+    public String newsDetail(@PathVariable("newsId") int newsId,
+                             Model model){
+
+        News news = newsService.selectNewsById(newsId);
+        if(news!=null){
+            List<Comment> comments = commentService.selectComment(news.getId(), EntityType.ENTITY_NEWS);
+            List<ViewObject> commentVos=new ArrayList<ViewObject>();
+            for(Comment comment:comments){
+                ViewObject vo=new ViewObject();
+                vo.set("comment",comment);
+                vo.set("user",userService.selectUserById(comment.getUserId()));
+                commentVos.add(vo);
+            }
+            model.addAttribute("comments",commentVos);
+        }
+
+        model.addAttribute("news",news);
+        model.addAttribute("owner",userService.selectUserById(news.getUserId()));
+        return "detail";
+    }
+
+
+    @RequestMapping(value = "/addComment",method = {RequestMethod.POST})
+    public String addComment(@RequestParam("newsId") int newsId,
+                             @RequestParam("content") String content){
+
+        try{
+            Comment comment=new Comment();
+            comment.setUserId(hostHolder.getUser().getId());
+            comment.setStatus(0);
+            comment.setEntityId(newsId);
+            comment.setEntityType(EntityType.ENTITY_NEWS);
+            comment.setCreatedDate(new Date());
+            comment.setContent(content);
+            commentService.addComment(comment);
+            //更新评论数量
+            int count = commentService.commentCount(newsId, EntityType.ENTITY_NEWS);
+            newsService.updateCount(count,newsId);
+        }catch (Exception e){
+            logger.error("添加评论失败！"+e.getMessage());
+        }
+        return "redirect:/news/"+String.valueOf(newsId);
     }
 }

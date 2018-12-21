@@ -16,6 +16,6 @@ public class SettingsController {
     @RequestMapping("/setting")
     public String settings(){
 
-        return "header";
+        return "detail";
     }
 }
