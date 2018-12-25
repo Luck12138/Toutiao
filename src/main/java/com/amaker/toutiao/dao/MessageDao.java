@@ -24,11 +24,19 @@ public interface MessageDao {
             ") values (#{fromId},#{toId},#{content},#{createdDate},#{hasRead},#{conversationId})"})
     void addMessage(Message message);
 
-    @Select({"select",SELECT_FIELDS,"from",TABLE_NAME,"where conversation_id=conversationId "})
+    @Select({"select",SELECT_FIELDS,"from",TABLE_NAME,"where conversation_id=#{conversationId}  order by id desc limit #{offset},#{limit}"})
     List<Message> selectMessageByConId(@Param("conversationId") String conversationId,
                                        @Param("offset") int offset,
                                        @Param("limit") int limit);
 
+    @Select({"select count(id) from message where has_read=0 and to_id=#{userId} and conversation_id=#{conversationId}"})
+    int getConversationCount(@Param("userId") int userId,
+                             @Param("conversationId") String conversationId);
 
+    @Select({"select",INSERT_FIELDS,", count(id) as id from (select * from", TABLE_NAME,
+            "where from_id=#{userId} or to_id=#{userId} order by created_date desc) tt group by conversation_id order by created_date desc limit #{offset},#{limit}"})
+    List<Message> getConversationList(@Param("userId") int userId,
+                                      @Param("offset") int offset,
+                                      @Param("limit") int limit);
 
 }

@@ -28,7 +28,7 @@ public interface CommentDao {
     void addComment(Comment comment);
 
     @Select({"select ",SELECT_FIELDS," from",TABLE_NAME,
-            "where entity_id=#{entityId} and entity_type=#{entityType}"})
+            "where entity_id=#{entityId} and entity_type=#{entityType} order by created_date desc"})
     List<Comment> selectCommentByIdAndType(@Param("entityId") int entityId,
                                            @Param("entityType") int entityType);
 
@@ -40,4 +40,6 @@ public interface CommentDao {
     @Update({"update",TABLE_NAME,"set status=#{status} where id=#{id}"})
     void updateStatus(@Param("status") int status,
                       @Param("id") int id);
+
+
 }
