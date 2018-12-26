@@ -1,10 +1,7 @@
 package com.amaker.toutiao.controller;
 
 import com.amaker.toutiao.model.*;
-import com.amaker.toutiao.service.CommentService;
-import com.amaker.toutiao.service.NewsService;
-import com.amaker.toutiao.service.QiniuService;
-import com.amaker.toutiao.service.UserService;
+import com.amaker.toutiao.service.*;
 import com.amaker.toutiao.util.TouTiaoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +42,9 @@ public class NewsController {
 
     @Autowired
     HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
 
     public static Logger logger=LoggerFactory.getLogger(NewsController.class);
 
@@ -113,8 +113,15 @@ public class NewsController {
 
         News news = newsService.selectNewsById(newsId);
         if(news!=null){
+            int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
+            if (localUserId != 0) {
+                model.addAttribute("like", likeService.getLikeStatus(localUserId, EntityType.ENTITY_NEWS, news.getId()));
+            } else {
+                model.addAttribute("like", 0);
+            }
             List<Comment> comments = commentService.selectComment(news.getId(), EntityType.ENTITY_NEWS);
             List<ViewObject> commentVos=new ArrayList<ViewObject>();
+
             for(Comment comment:comments){
                 ViewObject vo=new ViewObject();
                 vo.set("comment",comment);

@@ -26,6 +26,14 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/com.qiniu/qiniu-java-sdk -->
         <dependency>
             <groupId>com.qiniu</groupId>
