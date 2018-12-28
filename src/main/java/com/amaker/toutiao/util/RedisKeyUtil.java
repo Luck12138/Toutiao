@@ -11,6 +11,11 @@ public class RedisKeyUtil {
     public static String BIZ_LIKE="LIKE";
     public static String BIZ_DISLIKE="DISLIKE";
     public static String SPLIT=":";
+    public static String BIZ_EVENT="EVENT";
+
+    public static String getEventQueueKey(){
+        return BIZ_EVENT;
+    }
 
     public static String getLikeKey(int entityType,int entityId){
         return BIZ_LIKE+SPLIT+String.valueOf(entityType)+SPLIT+String.valueOf(entityId);

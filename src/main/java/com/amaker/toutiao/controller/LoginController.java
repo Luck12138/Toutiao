@@ -1,5 +1,8 @@
 package com.amaker.toutiao.controller;
 
+import com.amaker.toutiao.async.EventModel;
+import com.amaker.toutiao.async.EventProducer;
+import com.amaker.toutiao.async.EventType;
 import com.amaker.toutiao.service.UserService;
 import com.amaker.toutiao.util.TouTiaoUtil;
 import org.slf4j.Logger;
@@ -26,6 +29,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EventProducer producer;
 
     @RequestMapping(value = "/reg/",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
@@ -73,6 +79,8 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+                producer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int)map.get("userId"))
+                .setExts("username",username).setExts("mail","1623082663@qq.com"));
                 return TouTiaoUtil.getJsonString(0,"登录成功");
             }
             else {
