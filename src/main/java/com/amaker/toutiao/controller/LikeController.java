@@ -5,6 +5,8 @@ import com.amaker.toutiao.model.HostHolder;
 import com.amaker.toutiao.service.LikeService;
 import com.amaker.toutiao.service.NewsService;
 import com.amaker.toutiao.util.TouTiaoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import java.io.IOException;
 @Controller
 public class LikeController {
 
+
     @Autowired
     private HostHolder hostHolder;
 
@@ -35,8 +38,7 @@ public class LikeController {
 
     @RequestMapping(value = "/like",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public String like(@RequestParam("newsId") int newsId,
-                       HttpServletResponse response) throws IOException {
+    public String like(@RequestParam("newsId") int newsId){
 
         int localUser=hostHolder.getUser().getId();
         long like = likeService.like(localUser, EntityType.ENTITY_NEWS, newsId);
