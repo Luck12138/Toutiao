@@ -8,6 +8,7 @@ import com.amaker.toutiao.model.Message;
 import com.amaker.toutiao.model.User;
 import com.amaker.toutiao.service.MessageService;
 import com.amaker.toutiao.service.UserService;
+import com.amaker.toutiao.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,8 @@ public class LikeHandler implements EventHandler {
     @Autowired
     private UserService userService;
 
+
+
     @Override
     public void doHandler(EventModel model) {
         Message message=new Message();
@@ -41,6 +44,8 @@ public class LikeHandler implements EventHandler {
         User user = userService.selectUserById(model.getActorId());
         message.setContent("用户"+user.getName()+"赞了你的资讯,http://127.0.0.1/news/"+model.getEntityId());
         messageService.addMessage(message);
+
+
     }
 
     @Override

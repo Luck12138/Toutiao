@@ -3,15 +3,15 @@ package com.amaker.toutiao.async.handler;
 import com.amaker.toutiao.async.EventHandler;
 import com.amaker.toutiao.async.EventModel;
 import com.amaker.toutiao.async.EventType;
-import com.amaker.toutiao.dao.MessageDao;
 import com.amaker.toutiao.model.Message;
 import com.amaker.toutiao.service.MessageService;
+import com.amaker.toutiao.util.MailSender;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @program: toutiao
@@ -24,6 +24,8 @@ public class LoginExceptionHandler implements EventHandler {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MailSender mailSender;
     @Override
     public void doHandler(EventModel model) {
         Message message=new Message();
@@ -32,7 +34,20 @@ public class LoginExceptionHandler implements EventHandler {
         message.setCreatedDate(new Date());
         message.setConversationId(2>model.getActorId()?String.format("%d_%d",model.getActorId(),2):String.format("%d_%d",2,model.getActorId()));
         message.setContent("你上次的登陆IP异常");
-        messageService.addMessage(message);
+       // messageService.addMessage(message);
+
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("username",model.getExts("username"));
+        FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();
+        factory.setTemplateLoaderPath("classpath:templates/mails/");//模板目录，我在classes新建了model目录
+        Template template = null;
+        try {
+            template = factory.createConfiguration().getTemplate("welcome.ftl");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mailSender.sendWithHtmlTemplate(model.getExts("to"),"登录异常！",template,map);
     }
 
     @Override

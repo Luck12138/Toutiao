@@ -80,7 +80,7 @@ public class LoginController {
                 }
                 response.addCookie(cookie);
                 producer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int)map.get("userId"))
-                .setExts("username",username).setExts("mail","1623082663@qq.com"));
+                .setExts("username",username).setExts("to","zhuyuxuan9611@qq.com"));
                 return TouTiaoUtil.getJsonString(0,"登录成功");
             }
             else {
